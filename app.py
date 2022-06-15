@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route("/movie/<title>/")
 def data_movie(title):
-    """ Выводит даные о фильме"""
+    """ Выводит данные о фильме"""
     post_movie = db_movie.get_name_movie(title)
     return jsonify(post_movie)
 
