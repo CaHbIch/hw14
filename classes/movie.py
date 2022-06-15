@@ -31,13 +31,66 @@ class Movie:
         db = self.connect_db()
         sql = f""" SELECT `title`, release_year
                   FROM netflix
-                  WHERE `release_year` >= {year}
-                  AND `release_year` <= {years}
-                  ORDER BY release_year DESC
+                  WHERE `release_year` BETWEEN {year} AND {years}
+                  ORDER BY release_year
                   LIMIT 100
             """
         db.execute(sql)
         get_movies = []
         for get_movie in db:
+            get_movies.append(dict(get_movie))
+        return get_movies
+
+    def search_by_rating_children(self):
+        """ поиск по рейтингу, для детей"""
+        db = self.connect_db()
+        sql = f""" SELECT `title`, rating, description
+                  FROM netflix
+                  WHERE `rating` = 'G'
+            """
+        db.execute(sql)
+        get_movies = []
+        for get_movie in db:
+            get_movies.append(dict(get_movie))
+        return get_movies
+
+    def search_by_rating_family(self):
+        """ поиск для семейного просмотра """
+        db = self.connect_db()
+        sql = f""" SELECT `title`, rating, description
+                  FROM netflix
+                  WHERE `rating` IN ('G','PG', 'PG-13')
+            """
+        db.execute(sql)
+        get_movies = []
+        for get_movie in db:
+            get_movies.append(dict(get_movie))
+        return get_movies
+
+    def search_by_rating_adult(self):
+        """ поиск для взрослых. """
+        db = self.connect_db()
+        sql = f""" SELECT `title`, rating, description
+                  FROM netflix
+                  WHERE `rating` IN ('R', 'NC-17')
+            """
+        db.execute(sql)
+        get_movies = []
+        for get_movie in db:
+            get_movies.append(dict(get_movie))
+        return get_movies
+
+    def search_by_genre(self, genre):
+        """ поиск по жанру. """
+        db = self.connect_db()
+        sql = f""" SELECT `title`, `description`, listed_in
+                  FROM netflix
+                  LIMIT 100             
+            """
+        db.execute(sql)
+        get_movies = []
+        for get_movie in db:
+            genres = get_movie['listed_in']
+            if str(genre).lower() in genres.lower():
                 get_movies.append(dict(get_movie))
         return get_movies
