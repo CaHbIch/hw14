@@ -83,14 +83,17 @@ class Movie:
     def search_by_genre(self, genre):
         """ поиск по жанру. """
         db = self.connect_db()
-        sql = f""" SELECT `title`, `description`, listed_in
+        sql = f"""SELECT `title`, description, listed_in
                   FROM netflix
-                  LIMIT 100             
-            """
+                    """
         db.execute(sql)
         get_movies = []
         for get_movie in db:
             genres = get_movie['listed_in']
             if str(genre).lower() in genres.lower():
-                get_movies.append(dict(get_movie))
+                gets_movie = {
+                                "title": get_movie['title'],
+                                "description": get_movie['description']
+                            }
+                get_movies.append(dict(gets_movie))
         return get_movies
