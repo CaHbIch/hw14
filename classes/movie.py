@@ -92,8 +92,8 @@ class Movie:
             genres = get_movie['listed_in']
             if str(genre).lower() in genres.lower():
                 gets_movie = {
-                                "title": get_movie['title'],
-                                "description": get_movie['description']
-                            }
+                    "title": get_movie['title'],
+                    "description": get_movie['description']
+                }
                 get_movies.append(dict(gets_movie))
         return get_movies
