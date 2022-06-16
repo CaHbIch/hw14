@@ -113,6 +113,22 @@ class Movie:
                 add_actors.append(get_actor)
         return add_actors
 
-# movie = Movie("../netflix.db")
-#
-# pp(movie.get_actors('Rose Mclver', "Ben Lamb"))
+    def paintings(self, types, release_year, listed_in):
+        """ список названий картин """
+        db = self.connect_db()
+        sql = f"""SELECT *
+                  FROM netflix
+                  WHERE `release_year` = {release_year}
+                           """
+        db.execute(sql)
+        get_movies = []
+        for get_movie in db:
+            genres = get_movie['listed_in']
+            type_of = get_movie['type']
+            if str(listed_in).lower() in genres.lower() and str(types).lower() in type_of.lower():
+                gets_movie = {
+                    "title": get_movie['title'],
+                    "description": get_movie['description']
+                }
+                get_movies.append(dict(gets_movie))
+        return get_movies
