@@ -1,4 +1,5 @@
 import sqlite3
+from pprint import pp
 
 
 class Movie:
@@ -97,3 +98,21 @@ class Movie:
                 }
                 get_movies.append(dict(gets_movie))
         return get_movies
+
+    def get_actors(self, actor, actros):
+        """ Возвращает список актеров """
+        db = self.connect_db()
+        sql = f"""SELECT `cast`
+                  FROM netflix
+                  """
+        db.execute(sql)
+        add_actors = []
+        for get_actors in db:
+            get_actor = get_actors['cast']
+            if actor.lower() and actros.lower() in get_actor.lower():
+                add_actors.append(get_actor)
+        return add_actors
+
+# movie = Movie("../netflix.db")
+#
+# pp(movie.get_actors('Rose Mclver', "Ben Lamb"))
