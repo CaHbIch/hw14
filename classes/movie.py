@@ -8,7 +8,7 @@ class Movie:
         self.DATABASE = DATABASE
 
     def connect_db(self):
-        """ Устанавливаем соединение с БД"""
+        """ Устанавливаем соединение с курсором БД"""
         with sqlite3.connect(self.DATABASE) as conn:
             conn.row_factory = sqlite3.Row
             conn = conn.cursor()
